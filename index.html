@@ -5,14 +5,14 @@
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
 
 
 <head>
   <meta charset="utf-8">
   <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
        Remove this if you use the .htaccess -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!--meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"-->
   <title></title>
   <meta name="description" content="Stell Y. Wu">
   <meta name="author" content="">
@@ -24,29 +24,33 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-geo-projection/0.2.9/d3.geo.projection.min.js"</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"</script>
-  <link type="text/css" rel="stylesheet" href="css/main.css" /> 
+  <link type="text/css" rel="stylesheet" href="css/style.css" /> 
   
   <script type="text/javascript">  
  
       function draw(geo_data) {
         "use strict";
-           var margin = 75,
-            width = 1400 - margin,
-            height =600 - margin;
+        var margin = 5,
+            mapwidth=document.getElementById("worldmap").clientWidth,
+            mapheight=document.getElementById("worldmap").clientHeight,
+            width = mapwidth - margin,
+            height =mapheight - margin;
 
-       var svg = d3.select("body")
+        var svg = d3.select("#worldmap")
             .append("svg")
-            .attr("width", width + margin)
-            .attr("height", height + margin)
+            .attr("width", width)
+            .attr("height", height)
             .append('g')
             .attr('class', 'map');
-
-
+        
+        
         var projection = d3.geo.kavrayskiy7()
-             .scale(230)
-             .translate([width / 2, height / 1.5])
+             .center([0,0])   
+             .scale(width/5.2)
+             .translate([width/2.0, width/3.0])
              .precision(.1);
 
+        console.log(width,height)
 
         var path = d3.geo.path().projection(projection);
   
@@ -73,7 +77,9 @@
                     
 //      mounseover events 
         var textbox = d3.select("body").append("div")
-                .attr("class","tooltip");                
+                .attr("class","tooltip")
+                .style("opacity",0);
+                
 
         d3.tsv("happy_pop_gdp_lat_lon.tsv",function(error,data) {
              g.selectAll("circle")
@@ -153,21 +159,21 @@
 
 <div id='description'>
     <h2>Our happiness varies greatly over the world</h2>
-        <p>the Sustainable Development Solution Networks(SDSN) has published the third round of <a href='http://worldhappiness.report'>the World Happienss Report</a> in April 2015. Here's a look at the happiness level for each country. Each circle represent the log scale of the population in a country. </p>
+        <p>the United Nations Sustainable Development Solution Network (SDSN) has published the third round of <a href='http://worldhappiness.report'>the World Happiness Report</a> in April 2015. Here's a look at the happiness score for each country, ranking from 0 (extemely unhappy) to 10 (extemely happy). The bubble size represents the log scale of the population of the country. </p>
 
-        <p><type1>Happiness</type1> covers western Europe and nearly the entire American continent, except for a few mid-American island countries that are volurable tonatural desasters.<type2> Blue </type2> threatens east Europe and devours Africa. Over one third of us live in <type2> unhappy </type2> Indian and China.</p>
+        <p><type1>Happiness</type1> overspread Western Europe, the Americas, except for a few Caribbean island-nations that are vulnerable to natural disasters.<type2> Blue </type2> threatens East Europe and devours Africa. Over one third of us are living in <type2> unhappy </type2> Indian and China.</p>
         <p>     </p>
 </div>
 
-<!--div id='worldmap'></div-->
-
+<div id='worldmap'>
     <script type="text/javascript">    
     d3.json("world_countries.json", draw);
     </script>
-
+    <p> If you are using <b>Internet Exploror</b> and are not looking at a beautiful map here, try press F12 and then refresh the page. You may press F12 again to close the Developer Tools.</p> 
+</div>
 
 <div id='footer'>
-    Made by <a href='http://thedatajournalist.com'>Stella Wu & Brigitte Mueller</a>, 2015.
+    Made by <a href='http://www.stellaywu.com' target="_blank">Stella Wu</a>, 2015.<br><a href='http://www.thedatajournalist.com' target="_blank">TheDataJournalist.com</a>
 </div>
 
 </body>
